@@ -1,12 +1,18 @@
 /* eslint-disable jsx-a11y/alt-text */
 import axios from 'axios'
+import { useContext } from 'react';
 import { useState } from 'react'
 import style from    "./style.module.css";
+import { Link } from 'react-router-dom';
+import { myContext } from '../context';
 
 
 const { useEffect } = require("react")
 
 function  Home (){
+
+
+    const {sentNews, setSentNews} = useContext (myContext);
   
 
     const [page,setPage] = useState(1)
@@ -25,7 +31,7 @@ function  Home (){
 
 
     useEffect(()=>{
-        if(seacrh == ''){
+        if(seacrh === ''){
             axios
         .get("https://newsapi.org/v2/top-headlines", {
           params: {
@@ -70,9 +76,9 @@ function  Home (){
     
     return  <div className={style.containerHome}>
         
-        <option></option>
+        
         <input   placeholder='Seacrh some news here'
-           className={style.inp} onChange={(el)=>{
+           className={style.input} onChange={(el)=>{
             setValue(el.target.value)
         }} />
         <button  className={style.code}  onClick={()=>{
@@ -100,8 +106,13 @@ function  Home (){
             
               <p>{el.publishedAt}</p>
             
-              <button>Read more</button>
-
+                  <Link className={style.Link} to={`article`}
+                  onClick={()=>{
+                    setSentNews(el)
+                  }}
+                  >
+                    Read more
+                  </Link>
             
                 </div>
 
